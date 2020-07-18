@@ -84,6 +84,16 @@ class IOCache(Cache):
     size = '1kB'
     tgts_per_mshr = 12
 
+# Freij - define L3 cache class
+class L3Cache(Cache):
+    assoc = 8
+    tag_latency = 35
+    data_latency = 35
+    response_latency = 35
+    mshrs = 20
+    tgts_per_mshr = 12
+    write_buffers = 10
+
 class PageTableWalkerCache(Cache):
     assoc = 2
     tag_latency = 2

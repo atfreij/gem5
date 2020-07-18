@@ -64,6 +64,9 @@ class Process(SimObject):
     drivers = VectorParam.EmulatedDriver([], 'Available emulated drivers')
     release = Param.String('5.1.0', "Linux kernel uname release")
 
+    # Freij - add process name to verify benchmark running
+    processName = Param.String('', "Name of running process")
+
     @classmethod
     def export_methods(cls, code):
         code('bool map(Addr vaddr, Addr paddr, int sz, bool cacheable=true);')

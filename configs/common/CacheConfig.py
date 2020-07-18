@@ -94,6 +94,7 @@ def config_cache(options, system):
     if options.l2cache and options.elastic_trace_en:
         fatal("When elastic trace is enabled, do not configure L2 caches.")
 
+    """
     if options.l2cache:
         # Provide a clock for the L2 and the L1-to-L2 bus here as they
         # are not connected using addTwoLevelCacheHierarchy. Use the
@@ -113,9 +114,14 @@ def config_cache(options, system):
                       "of type", type(system.l2.prefetcher), ", using the",
                       "specified by the flag option.")
             system.l2.prefetcher = hwpClass()
+    """
 
     if options.memchecker:
         system.memchecker = MemChecker()
+
+    # Freij - move L2 into per-CPU config and have L3 be system-level
+    system.l3cache = L3Cache(clk_domain=system.cpu_clk_domain, size=options.l3_size, assoc=options.l3_assoc)
+    system.toL3bus = L3XBar(clk_domain=system.cpu_clk_domain)
 
     for i in range(options.num_cpus):
         if options.caches:
@@ -123,6 +129,10 @@ def config_cache(options, system):
                                   assoc=options.l1i_assoc)
             dcache = dcache_class(size=options.l1d_size,
                                   assoc=options.l1d_assoc)
+            ## Freij - L2 cache instantiation
+            l2cache = l2_cache_class(clk_domain=system.cpu_clk_domain,
+                                        size=options.l2_size,
+                                        assoc=options.l2_assoc)
 
             # If we have a walker cache specified, instantiate two
             # instances here
@@ -148,6 +158,7 @@ def config_cache(options, system):
                 # Let CPU connect to monitors
                 dcache = dcache_mon
 
+            """
             if options.l1d_hwp_type:
                 hwpClass = HWPConfig.get(options.l1d_hwp_type)
                 if dcache.prefetcher != m5.params.NULL:
@@ -165,11 +176,15 @@ def config_cache(options, system):
                           "of type", type(icache.prefetcher), ", using the",
                           "specified by the flag option.")
                 icache.prefetcher = hwpClass()
+            """
 
             # When connecting the caches, the clock is also inherited
             # from the CPU in question
-            system.cpu[i].addPrivateSplitL1Caches(icache, dcache,
-                                                  iwalkcache, dwalkcache)
+            #system.cpu[i].addPrivateSplitL1Caches(icache, dcache, iwalkcache, dwalkcache)
+
+            # Freij - create two level hierarchy per CPU
+            system.cpu[i].addTwoLevelCacheHierarchy(icache, dcache, l2cache, iwalkcache, dwalkcache)
+
 
             if options.memchecker:
                 # The mem_side ports of the caches haven't been connected yet.
@@ -196,12 +211,18 @@ def config_cache(options, system):
 
         system.cpu[i].createInterruptController()
         if options.l2cache:
-            system.cpu[i].connectAllPorts(system.tol2bus, system.membus)
+            #system.cpu[i].connectAllPorts(system.tol2bus, system.membus)
+            # Freij - double check where L2 is being connected?
+            system.cpu[i].connectAllPorts(system.toL3bus, system.membus)
         elif options.external_memory_system:
             system.cpu[i].connectUncachedPorts(system.membus)
         else:
             system.cpu[i].connectAllPorts(system.membus)
-
+    
+    # Freij - connect L3 cache
+    system.l3cache.cpu_side = system.toL3bus.master
+    system.l3cache.mem_side = system.membus.slave
+    
     return system
 
 # ExternalSlave provides a "port", but when that port connects to a cache,

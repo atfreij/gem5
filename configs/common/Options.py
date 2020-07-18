@@ -117,6 +117,8 @@ def addNoISAOptions(parser):
                       help="use external port for SystemC TLM cosimulation")
     parser.add_option("--caches", action="store_true")
     parser.add_option("--l2cache", action="store_true")
+    # Freij - add L3 cache option
+    parser.add_option("--l3cache", action="store_true")
     parser.add_option("--num-dirs", type="int", default=1)
     parser.add_option("--num-l2caches", type="int", default=1)
     parser.add_option("--num-l3caches", type="int", default=1)
@@ -384,6 +386,8 @@ def addSEOptions(parser):
                            "for information or functionality. Instead of "    \
                            "finding files on the __HOST__ filesystem, the "   \
                            "process will find the user's replacment files.")
+    # Freij - benchmark selection option
+    parser.add_option("-b", "--benchmark", type="string", default="", help="Name of benchmark to run.")
 
 
 def addFSOptions(parser):

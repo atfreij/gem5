@@ -325,6 +325,32 @@ class DRAMCtrl(QoSMemCtrl):
     # Second voltage range defined by some DRAMs
     VDD2 = Param.Voltage("0V", "2nd Voltage Range")
 
+    # Freij - security metadata memory parameters
+    bmt_arity  = Param.Unsigned(8, "BMT arity")
+    mac_size   = Param.Unsigned(8, "MAC size (B)")
+    minor_ctrs = Param.Unsigned(64, "Minor counters per encryption page")
+
+    bmt_pkt_size = Param.Unsigned(64, "Size of BMT packet to read/write to/from mem (B)")
+    ctr_pkt_size = Param.Unsigned(64, "Size of CTR packet to read/write to/from mem (B)")
+    mac_pkt_size = Param.Unsigned(8, "Size of MAC packet to read/write to/from mem (B)")
+    # Freij - the MAC latency was later changed to be a time instead of cycle count, look into
+    # mac_latency is computed by finding time for one cycle , (cpu_clcok)^-1 then multiplying by #cycles
+    # (4*10E-9) * 40 cycles = 10ns
+    mac_latency = Param.Latency("10ns", "MAC computation latency in compute cycles")
+    
+    # Freij - metadata cache parameters
+    bmt_cache_size     = Param.Unsigned(128, "BMT cache size (KB)")
+    bmt_cache_assoc    = Param.Unsigned(8, "BMT cache associativity")
+    bmt_cache_blk_size = Param.Unsigned(64, "BMT cache block size (B)")
+    
+    ctr_cache_size     = Param.Unsigned(128, "CTR cache size (KB)")
+    ctr_cache_assoc    = Param.Unsigned(8, "CTR cache associativity")
+    ctr_cache_blk_size = Param.Unsigned(64, "CTR cache block size (B)")
+
+    mac_cache_size     = Param.Unsigned(128, "MAC cache size (KB)")
+    mac_cache_assoc    = Param.Unsigned(8, "MAC cache associativity")
+    mac_cache_blk_size = Param.Unsigned(64, "MAC cache block size (B)")
+
 # A single DDR3-1600 x64 channel (one command and address bus), with
 # timings based on a DDR3-1600 4 Gbit datasheet (Micron MT41J512M8) in
 # an 8x8 configuration.
@@ -583,7 +609,7 @@ class DDR4_2400_16x4(DRAMCtrl):
     # CAS-to-CAS delay for bursts to the same bank group
     # tBURST is equivalent to tCCD_S; no explicit parameter required
     # for CAS-to-CAS delay for bursts to different bank groups
-    tCCD_L = '5ns';
+    tCCD_L = '5ns'
 
     # DDR4-2400 17-17-17
     tRCD = '14.16ns'
@@ -595,7 +621,7 @@ class DDR4_2400_16x4(DRAMCtrl):
     tRRD = '3.332ns'
 
     # RRD_L (same bank group) for 512B page is MAX(4 CK, 4.9ns)
-    tRRD_L = '4.9ns';
+    tRRD_L = '4.9ns'
 
     # tFAW for 512B page is MAX(16 CK, 13ns)
     tXAW = '13.328ns'
@@ -659,7 +685,7 @@ class DDR4_2400_8x8(DDR4_2400_16x4):
     devices_per_rank = 8
 
     # RRD_L (same bank group) for 1K page is MAX(4 CK, 4.9ns)
-    tRRD_L = '4.9ns';
+    tRRD_L = '4.9ns'
 
     tXAW = '21ns'
 
@@ -669,6 +695,17 @@ class DDR4_2400_8x8(DDR4_2400_16x4):
     IDD4W = '123mA'
     IDD4R = '135mA'
     IDD3P1 = '37mA'
+
+    # Freij - NVMM parameters
+    tCK='0.83ns'
+    tCCD_L = '5.5ns'
+    tRCD = '55ns'
+    tXAW = '50ns'
+    tBURST = '5ns'
+    tWR = '150ns'
+    tRFC = '5ns'
+    tCL = '12.5ns'
+    device_bus_width = 64
 
 # A single DDR4-2400 x64 channel (one command and address bus), with
 # timings based on a DDR4-2400 8 Gbit datasheet (Micron MT40A512M16)

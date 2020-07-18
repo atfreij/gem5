@@ -78,3 +78,6 @@ if 'O3CPU' in env['CPU_MODELS']:
 
     SimObject('O3Checker.py')
     Source('checker.cc')
+
+    # Freij - debug flag for instruction counter
+    DebugFlag('InstCounter')

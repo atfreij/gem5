@@ -1569,6 +1569,11 @@ FullO3CPU<Impl>::instDone(ThreadID tid, const DynInstPtr &inst)
         committedInsts[tid]++;
         system->totalNumInsts++;
 
+        // Freij - instruction counter for display
+        if (thread[tid]->numInst % 10000 == 0) {
+            std::cout << "cpuID " << cpuId() << " instruction counter: " << thread[tid]->numInst << ", tick: " << curTick() << std::endl;
+        }
+
         // Check for instruction-count-based events.
         comInstEventQueue[tid]->serviceEvents(thread[tid]->numInst);
         system->instEventQueue.serviceEvents(system->totalNumInsts);

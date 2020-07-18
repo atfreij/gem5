@@ -1,0 +1,36 @@
+{
+  "cpu": {
+      "type":"DerivO3CPU",
+      "clock":"4GHz",
+      "count":"1"
+  },
+  "cache": {
+      "l1d_size":"32kB",
+      "l1d_assoc":"8",
+      "l1i_size":"16kB",
+      "l1i_assoc":"8",
+	  "l2_size":"256kB",
+	  "l2_assoc":"16",
+	  "l3_size":"8MB",
+	  "l3_assoc":"32"
+  },
+  "mem": {
+	  "mem_type":"DDR4_2400_8x8",
+	  "mem_size":"8GB"
+  },
+  "sim": {
+      "version":"opt",
+      "debug-flags": "",
+      "config": "configs/atf/atf-se.py",
+	  "fast_forward":"10000",
+	  "max_insts":"5000000" 
+  },
+  "sys": {
+    "clock": "4GHz"
+  },
+  "directories": {
+    "gem5_dir": "/mnt/sdb3/school/research/sim/rebase/",
+    "benchmark_dir": "/mnt/sdb3/school/research/benchmarks/spec2006/benchspec/CPU2006/",
+    "output_dir": "/mnt/sdb3/school/research/sim/spec_output/"
+  }
+}
