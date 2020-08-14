@@ -21,13 +21,19 @@ There is some initial setup required to run the simulator, specifically with ben
 Once setup is complete, to build gem5:
 
 `scons build/X86/gem5.opt -j9`
+
 **NOTE**: gem5.debug can also be built this way by replacing `.opt` with `.debug`. `-jX` is dependent on the number of cores in the local system, it is recommended to use `num_cores + 1`.
 
 Once built, to run gem5 with a specified benchmark:
 
-`./run.py -b benchmark_name -o sim_results_dir -c config.json`
+`./run.py -b benchmark_name -o sim_run_name -c config_name.json`
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+1. `benchmark_name`: Name of the desired benchmark, i.e: `bwaves`,`astar`, etc.
+2. `sim_run_name`: Helpful name to separate benchmark simulations, i.e:`baseline_8gb`. Specific benchmarks will be subdirectories in this folder.
+3. `config_name.json`: Name of the config file used, located in the root gem5 directory. A sample config.json file is provided.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 This is the gem5 simulator.
 
 The main website can be found at http://www.gem5.org
