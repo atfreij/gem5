@@ -1,4 +1,3 @@
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This repository to set a baseline version of gem5 that is used across our research group. This is a slightly modified version to enable the following features:
 
 1. Per-core L2 cache and unified L3 cache (one core enabled, not a multi-core environment)
@@ -27,8 +26,8 @@ Once setup is complete, to build gem5:
 Once built, to run gem5 with a specified benchmark:
 
 `./run.py -b benchmark_name -o sim_results_dir -c config.json`
-	
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 This is the gem5 simulator.
 
 The main website can be found at http://www.gem5.org
