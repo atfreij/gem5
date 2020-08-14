@@ -22,8 +22,8 @@
       "version":"opt",
       "debug-flags": "",
       "config": "configs/atf/atf-se.py",
-	  "fast_forward":"10000",
-	  "max_insts":"5000000" 
+	  "fast_forward":"10",
+	  "max_insts":"1000" 
   },
   "sys": {
     "clock": "4GHz"
@@ -31,6 +31,6 @@
   "directories": {
     "gem5_dir": "/mnt/sdb3/school/research/sim/rebase/",
     "benchmark_dir": "/mnt/sdb3/school/research/benchmarks/spec2006/benchspec/CPU2006/",
-    "output_dir": "/mnt/sdb3/school/research/sim/spec_output/"
+    "output_dir": "/mnt/sdb3/school/research/sim/sim_results/"
   }
 }

@@ -38,8 +38,6 @@
 #
 # Authors: Steve Reinhardt
 
-# Edit: Alex Freij
-
 # Simple test script
 #
 # "m5 test.py"

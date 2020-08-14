@@ -4,21 +4,8 @@ from __future__ import absolute_import
 import m5
 from m5.objects import *
 
-# setup == p71, x230, bugis, lycan, blueman9, blueman10
-setup = "odin"
-
-if setup == "lycan":
-  binary_dir = '/home/atfreij/research/sim/spec2006/benchspec/CPU2006/'
-  out_dir = '/home/atfreij/research/sim/spec2006_output'
-elif setup == "bugis":
-  binary_dir = '/home/atfreij/spec2006/benchspec/CPU2006/'
-  out_dir = '/home/atfreij/spec2006_output/'
-elif setup == "p71":
-  binary_dir = '/home/alex/school/research/benchmarks/spec2006/benchspec/CPU2006/'
-  out_dir = '/home/alex/school/research/sim/results/spec_output/'
-elif setup == 'odin':
-  binary_dir = '/mnt/sdb3/school/research/benchmarks/spec2006/benchspec/CPU2006/'
-  out_dir = '/mnt/sdb3/school/research/sim/spec_output/'
+binary_dir = '/path/to/spec2006/benchspec/CPU2006/'
+out_dir = '/path/to/spec2006_output/'
 
 #400.perlbench
 def createPerl():
