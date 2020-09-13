@@ -62,7 +62,7 @@ from common import Options
 from common import Simulation
 from common import CacheConfig
 from common import CpuConfig
-from common import ObjectList
+#from common import ObjectList
 from common import MemConfig
 from common.FileSystemConfig import config_filesystem
 from common.Caches import *
@@ -135,49 +135,6 @@ if options.elastic_trace_en:
 for cpu in system.cpu:
     cpu.clk_domain = system.cpu_clk_domain
 
-if ObjectList.is_kvm_cpu(CPUClass) or ObjectList.is_kvm_cpu(FutureClass):
-    if buildEnv['TARGET_ISA'] == 'x86':
-        system.kvm_vm = KvmVM()
-        for process in multiprocesses:
-            process.useArchPT = True
-            process.kvmInSE = True
-    else:
-        fatal("KvmCPU can only be used in SE mode with x86")
-
-# Sanity check
-if options.simpoint_profile:
-    if not ObjectList.is_noncaching_cpu(CPUClass):
-        fatal("SimPoint/BPProbe should be done with an atomic cpu")
-    if np > 1:
-        fatal("SimPoint generation not supported with more than one CPUs")
-
-#TODO: multicore processor simulation
-"""
-for i in range(np):
-    if options.smt:
-        system.cpu[i].workload = multiprocesses
-    elif len(multiprocesses) == 1:
-        system.cpu[i].workload = multiprocesses[0]
-    else:
-        system.cpu[i].workload = multiprocesses[i]
-
-    if options.simpoint_profile:
-        system.cpu[i].addSimPointProbe(options.simpoint_interval)
-
-    if options.checker:
-        system.cpu[i].addCheckerCpu()
-
-    if options.bp_type:
-        bpClass = ObjectList.bp_list.get(options.bp_type)
-        system.cpu[i].branchPred = bpClass()
-
-    if options.indirect_bp_type:
-        indirectBPClass = \
-            ObjectList.indirect_bp_list.get(options.indirect_bp_type)
-        system.cpu[i].branchPred.indirectBranchPred = indirectBPClass()
-
-    system.cpu[i].createThreads()
-"""
 # Initialization of major components
 MemClass = Simulation.setMemClass(options)
 system.membus = SystemXBar()
